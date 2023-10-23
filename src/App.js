@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
   document.title = "To-do"
-
+  var deleted = false;
   //input box value handling
   const [value,setValue] = useState("");
   const handlechange = (e) => {
@@ -24,6 +24,10 @@ function App() {
         return task;
       }
     }))
+    if(!deleted) {
+      save('myArray', tasks.map((task) => task.id===id? {text: task.text, id: id, checked: !task.checked} : task));
+    }
+    deleted = true;
   };
 
   //state for ids
@@ -35,13 +39,40 @@ function App() {
       setNoftasks(noftasks+1);
       setTasks([...tasks, { text: value, id: noftasks, checked: false }]);
       setValue("");
+      save('myArray', [...tasks, { text: value, id: noftasks, checked: false }]);
     }
   }
 
   //deletingtask
   const deltask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id))
+    deleted = true;
+    setTasks(tasks.filter((task) => task.id !== id));
+    save('myArray', tasks.filter((task) => task.id !== id));
   };
+
+  //saving array
+  const save = (key,value ) => {
+    console.log(JSON.stringify(value));
+    localStorage.setItem(key,JSON.stringify(value));
+  };
+
+  //load array
+  const load = () => {
+    const loadedarray = localStorage.getItem('myArray')
+    if(loadedarray) {
+      return JSON.parse(loadedarray);
+    }
+    else {
+      return null;
+    }
+  };
+  useEffect(() => {
+    const loadedData = load('myArray');
+    if (loadedData) {
+      setTasks(loadedData);
+      setNoftasks(loadedData.length);
+    }
+  }, []);
 
   //app
   return (
