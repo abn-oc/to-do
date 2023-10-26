@@ -50,6 +50,11 @@ function App() {
     save('myArray', tasks.filter((task) => task.id !== id));
   };
 
+  //deleting all tasks
+  const deleteall = () => {
+    setTasks([]);
+  };
+
   //saving array
   const save = (key,value ) => {
     console.log(JSON.stringify(value));
@@ -73,7 +78,7 @@ function App() {
       setNoftasks(loadedData.length);
     }
   }, []);
-
+  
   //app
   return (
     <div className="App">
@@ -94,6 +99,8 @@ function App() {
         ))}
 
         <div className='line'></div>
+
+        <button className='delall' onClick={deleteall}>Delete All</button>
       </div>
     </div>
   );

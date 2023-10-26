@@ -88,3 +88,18 @@ h4 {
   border-radius: 10px;
   font-size: 1.1rem;
 }
+
+
+.delall{
+  font-size: 1rem;
+  font-family: 'Poppins';
+  border: 1px #777 solid;
+  transition-duration: 125ms;
+  position: absolute;
+  top: 83%;
+  left: 46%;
+}
+
+.delall:hover{
+  background-color: rgb(252, 202, 202);
+}
